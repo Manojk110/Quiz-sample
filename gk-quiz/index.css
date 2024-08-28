@@ -1,0 +1,99 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    background-color: #89253e;
+    background: #b92b27;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #1565C0, #b92b27);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #1565C0, #b92b27); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+}
+
+.question-box {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+#question {
+    font-size: 45px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+.options {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 600px; 
+}
+
+
+.options li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #080808;
+    border-radius: 5px;
+    background-color: #7cb9c8;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+
+.options li:hover {
+    background-color: #08d205;
+    border-color: #040404;
+}
+
+
+.options input[type="radio"] {
+    margin-right: 10px;
+}
+
+
+.submit-button, #prev, #next, #final {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #040404;
+    background-color: white;
+    border-radius: 5px;
+    
+}
+.submit-button:hover, #prev:hover, #next:hover, #final:hover {
+    background-color: rgb(7, 7, 7);
+
+color: whitesmoke;
+}
+
+.submit-button:disabled, #prev:disabled, #next:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.result {
+    color: red;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #080808;
+    border-radius: 5px;
+    background-color: #7eced6;
+    
+}
+
+
+#score {
+    color: green;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+}

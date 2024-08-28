@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .question-box { margin: 20px; }
+        .result { color: red; }
+        .options li { list-style-type: none; }
+    </style>
+</head>
+<body>
+    <div class="question-box">
+        <h1 id="question"></h1>
+        <ul class="options" id="options"></ul>
+        <button class="submit-button" onclick="checkAns()  >Submit</button>
+        <button id="prev" onclick="prevQuestion()">Previous</button>
+        <button id="next" onclick="nextQuestion()">Next</button>
+        <button id="final" onclick="finalSubmit()" style="display: none;">Final Submit</button>
+        <div id="result" class="result" style="display: none;"></div>
+        <div id="score" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Who wrote the novel To Kill a Mockingbird?", options: ["Harper Lee", "F. Scott Fitzgerald", "Ernest Hemingway", "John Steinbeck"], correct: "Harper Lee" },
+            { question: "What is the capital city of Australia?", options: ["Sydney", "Canberra", "Melbourne", "Brisbane"], correct: "Canberra" },
+            { question: "Who painted the famous painting Mona Lisa?", options: ["Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso", "Michelangelo"], correct: "Leonardo da Vinci" },
+            { question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], correct: "Mars" },
+            { question: "Who discovered gravity?", options: ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Stephen Hawking"], correct: "Isaac Newton" },
+            { question: "What is the largest ocean on Earth?", options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"], correct: "Pacific Ocean" },
+            { question: "Which country is famous for tulips?", options: ["Netherlands", "Italy", "France", "Germany"], correct: "Netherlands" },
+            { question: "Who developed the theory of relativity?", options: ["Isaac Newton", "Albert Einstein", "Nikola Tesla", "Stephen Hawking"], correct: "Albert Einstein" },
+            { question: "What is the currency of Japan?", options: ["Yen", "Won", "Dollar", "Euro"], correct: "Yen" },
+            { question: "Who painted the famous painting The Starry Night?", options: ["Vincent van Gogh", "Pablo Picasso", "Claude Monet", "Edvard Munch"], correct: "Vincent van Gogh" }
+        ];
+
+        let currentIndex = 0;
+        const userAnswers = new Array(questions.length).fill(null);
+
+        function displayQuestion() {
+            const q = questions[currentIndex];
+            document.getElementById("question").textContent = q.question;
+            const optionsList = document.getElementById("options");
+            optionsList.innerHTML = q.options.map((option, index) => `
+                <li>
+                    <input type="radio" name="option" value="${option}" id="opt${index}">
+                    <label for="opt${index}">${option}</label>
+                </li>
+            `)
+            .join('');
+            updateButtons();
+            document.getElementById("result").style.display = "none";
+        }
+
+        function checkAns() {
+            const selected = document.querySelector('input[name="option"]:checked');
+            const resultDiv = document.getElementById("result");
+            if (selected) {
+                userAnswers[currentIndex] = selected.value;
+                const correct = questions[currentIndex].correct;
+                
+                resultDiv.textContent = selected.value === correct ? "Correct Answer!" : `Incorrect. Correct answer: ${correct}`;
+               
+            } else {
+                resultDiv.textContent = "Please select an answer!";
+            }
+            resultDiv.style.display = "block";
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                displayQuestion();
+            }
+            updateButtons();
+            updateFinal();
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                displayQuestion();
+            }
+            updateButtons();
+            updateFinal();
+        }
+
+        function updateButtons() {
+            document.getElementById("prev").disabled = currentIndex === 0;
+            document.getElementById("next").disabled = currentIndex === questions.length - 1;
+        }
+
+        function updateFinal() {
+            const finalSubmitButton = document.getElementById("final");
+            finalSubmitButton.style.display = currentIndex === questions.length - 1 ? "inline" : "none";
+        }
+
+        function finalSubmit() {
+            let score = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === questions[index].correct) {
+                    score++;
+                }
+            });
+            document.getElementById("score").textContent = `Your final score is ${score} out of ${questions.length}.`;
+            document.getElementById("score").style.display = "block";
+            document.getElementById("result").style.display = "none";
+            document.getElementById("prev").style.display = "none";
+            document.getElementById("next").style.display = "none";
+            document.getElementById("final").style.display = "none";
+            document.getElementById("question").style.display = "none";
+            document.getElementById("options").style.display = "none";
+            document.querySelector(".submit-button").style.display = "none";
+        }
+
+        window.onload = displayQuestion;
+    </script>
+</body>
+</html>
